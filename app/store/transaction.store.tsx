@@ -1,13 +1,6 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
-
-// Define the transaction type
-export interface Transaction {
-    id: string;
-    amount: number;
-    date: string;
-    description: string;
-    // Add more fields as needed
-}
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { client } from '../client';
+import { Transaction } from '../models/Transaction.mdl';
 
 // Context value type
 type TransactionContextType = {
@@ -21,6 +14,19 @@ const TransactionContext = createContext<TransactionContextType | undefined>(und
 
 export const TransactionProvider = ({ children }: { children: ReactNode }) => {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
+
+    useEffect(() => {
+        queryTransactions()
+    }, [])
+
+    const queryTransactions = async () => {
+        try {
+            const fetchedTransactions = await client.transactions.getAll();
+            setTransactions(fetchedTransactions);
+        } catch (err) {
+            console.error('Failed to query transactions:', err);
+        }
+    };
 
     const addTransaction = (tx: Transaction) => {
         setTransactions((prev) => [...prev, tx]);

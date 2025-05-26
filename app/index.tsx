@@ -1,6 +1,9 @@
 import { Text, View } from "react-native";
+import { useTransactions } from "./store/transaction.store";
 
 export default function Index() {
+  const { transactions } = useTransactions();
+
   return (
     <View
       style={{
