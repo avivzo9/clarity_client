@@ -16,7 +16,7 @@ const validOptions = {
 const defaultOptions = {
     dir: 'cmps',
     style: 'scss',
-    cmpType: 'class'
+    cmpType: 'func'
 }
 
 const cleanOption = (op) => {
@@ -117,7 +117,7 @@ try {
 
     const options = parseOptions(args)
     const { name, dir, style, cmpType } = options
-    const rootDir = path.join(__dirname, `/src/${dir}/${name}`)
+    const rootDir = path.join(__dirname, `/app/${dir}/${name}`)
 
     fs.mkdirSync(rootDir);
 
