@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import { client } from '../client';
+import services from '../clients/client';
 import { Transaction } from '../models/Transaction.mdl';
 
 // Context value type
@@ -21,7 +21,7 @@ export const TransactionProvider = ({ children }: { children: ReactNode }) => {
 
     const queryTransactions = async () => {
         try {
-            const fetchedTransactions = await client.transactions.getAll();
+            const fetchedTransactions = await services.transactions.getAll();
             setTransactions(fetchedTransactions);
         } catch (err) {
             console.error('Failed to query transactions:', err);
