@@ -3,7 +3,7 @@ import TextField from "@/app/cmps/ui/TextField";
 import { UserSignup } from "@/app/models/User.mdl";
 import { theme } from "@/app/theme";
 import { LinearGradient } from 'expo-linear-gradient';
-import { useState } from "react";
+import { Controller, useForm } from 'react-hook-form';
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 
@@ -13,44 +13,77 @@ interface SignupProps {
 }
 
 export default function Signup({ toggleAuth, onSubmit }: SignupProps) {
-    const [user, setUser] = useState<UserSignup | null>({
-        username: 'avivzo9',
-        email: 'avivzo9@gmail.com',
-        password: '123456789'
-    });
-
-    const handleChange = (field: keyof UserSignup, value: string) => {
-        setUser(prev => ({ ...prev, [field]: value } as UserSignup));
-    }
-
-    const handleSubmit = () => {
-        if (user?.email && user?.password && user?.username) onSubmit(user);
-        else alert('Please fill in all fields');
-    }
+    const { control, formState: { errors }, handleSubmit } = useForm<UserSignup>();
 
     return (
         <LinearGradient colors={[theme.colors.primary, '#003B73']} style={styles.container}>
             <View>
-                <TextField
-                    label="Username"
-                    value={user?.username || ''}
-                    onChange={txt => handleChange('username', txt)}
+                <Controller
+                    name="username"
+                    control={control}
+                    rules={{ required: 'Username is required' }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <TextField
+                            label="Username"
+                            onBlur={onBlur}
+                            onChangeText={onChange}
+                            value={"avivzo9"}
+                        // value={value}
+                        />
+                    )}
                 />
-                <TextField
-                    label="Email"
-                    value={user?.email || ''}
-                    onChange={txt => handleChange('email', txt)}
-                    keyboardType="email-address"
+                {errors.username && <Text style={styles.error}>{errors.username.message}</Text>}
+
+                <Controller
+                    name="email"
+                    control={control}
+                    rules={{
+                        required: 'Email is required',
+                        pattern: {
+                            value: /\S+@\S+\.\S+/,
+                            message: 'Email is invalid',
+                        },
+                    }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <TextField
+                            label="Email"
+                            onBlur={onBlur}
+                            onChangeText={onChange}
+                            value={'avivzo9@gmail.com'}
+                            // value={value}
+                            keyboardType="email-address"
+                        />
+                    )}
                 />
-                <TextField
-                    label="Password"
-                    value={user?.password || ''}
-                    onChange={txt => handleChange('password', txt)}
-                    secureTextEntry
+                {errors.email && <Text style={styles.error}>{errors.email.message}</Text>}
+
+                <Controller
+                    name="password"
+                    control={control}
+                    rules={{
+                        required: 'Password is required',
+                        minLength: 8,
+                        pattern: {
+                            value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                            message: 'Password must be at least 8 characters long and contain at least one letter and one number',
+                        }
+                    }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <TextField
+                            label="Password"
+                            onBlur={onBlur}
+                            onChangeText={onChange}
+                            value={"asdf5621561"}
+                            // value={value}
+                            secureTextEntry
+                        />
+                    )}
                 />
+                {errors.password && <Text style={styles.error}>{errors.password.message}</Text>}
             </View>
 
-            <RoundButton onClick={handleSubmit}>Sign Up</RoundButton>
+            <RoundButton text="Sign Up" onClick={handleSubmit(onSubmit)} />
+
 
             <View style={styles.signupSwitch}>
                 <Text style={{ fontWeight: 'bold' }}>Have an account?</Text>
@@ -79,4 +112,5 @@ const styles = StyleSheet.create({
         color: theme.colors.primary,
         fontWeight: 'bold'
     },
+    error: { color: 'red' }
 });

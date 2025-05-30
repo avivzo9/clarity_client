@@ -3,45 +3,53 @@ import TextField from "@/app/cmps/ui/TextField";
 import { UserLogin } from "@/app/models/User.mdl";
 import { theme } from "@/app/theme";
 import { LinearGradient } from 'expo-linear-gradient';
-import { useState } from "react";
+import { Controller, useForm } from 'react-hook-form';
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 
-interface LoginProps {
+interface SignupProps {
     onSubmit: (user: UserLogin) => void;
     toggleAuth: () => void;
 }
 
-export default function Login({ toggleAuth, onSubmit }: LoginProps) {
-    const [user, setUser] = useState<UserLogin | null>(null);
-
-    const handleChange = (field: keyof UserLogin, value: string) => {
-        setUser(prev => ({ ...prev, [field]: value } as UserLogin));
-    }
-
-    const handleSubmit = () => {
-        if (user?.email && user?.password) onSubmit(user);
-        else alert('Please fill in all fields');
-    }
+export default function Login({ toggleAuth, onSubmit }: SignupProps) {
+    const { control, formState: { errors }, handleSubmit } = useForm<UserLogin>();
 
     return (
         <LinearGradient colors={[theme.colors.primary, '#003B73']} style={styles.container}>
             <View>
-                <TextField
-                    label="Email"
-                    value={user?.email || ''}
-                    onChange={txt => handleChange('email', txt)}
-                    keyboardType="email-address"
+                <Controller
+                    name="email"
+                    control={control}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <TextField
+                            label="Email"
+                            onBlur={onBlur}
+                            onChange={onChange}
+                            value={value}
+                            keyboardType="email-address"
+                        />
+                    )}
                 />
-                <TextField
-                    label="Password"
-                    value={user?.password || ''}
-                    onChange={txt => handleChange('password', txt)}
-                    secureTextEntry
+                {errors.email && <Text style={styles.error}>{errors.email?.message}</Text>}
+
+                <Controller
+                    name="password"
+                    control={control}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <TextField
+                            label="Password"
+                            onBlur={onBlur}
+                            onChange={onChange}
+                            value={value}
+                            secureTextEntry
+                        />
+                    )}
                 />
+                {errors.password && <Text style={styles.error}>{errors.password?.message}</Text>}
             </View>
 
-            <RoundButton onClick={handleSubmit}>Login</RoundButton>
+            <RoundButton text="Login" onClick={handleSubmit(onSubmit)} />
 
             <View style={styles.signupSwitch}>
                 <Text style={{ fontWeight: 'bold' }}>Don't have an account?</Text>
@@ -70,4 +78,5 @@ const styles = StyleSheet.create({
         color: theme.colors.primary,
         fontWeight: 'bold'
     },
+    error: { color: 'red' }
 });

@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import services from "../clients/client";
+import { ApiError } from "../models/ApiError";
 import { User, UserLogin, UserSignup } from "../models/User.mdl";
 
 interface AuthState {
@@ -8,9 +9,9 @@ interface AuthState {
 }
 
 interface AuthContextProps extends AuthState {
-    login: (user: UserLogin) => void;
-    signup: (user: UserSignup) => void;
-    logout: () => void;
+    login: (user: UserLogin) => Promise<void>;
+    signup: (user: UserSignup) => Promise<void>;
+    logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -18,7 +19,7 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [authState, setAuthState] = useState<AuthState>({
         isAuthenticated: false,
-        user: null,
+        user: null
     });
 
     useEffect(() => {
@@ -50,16 +51,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             const userData = await services.auth.signup(user);
 
             setAuthState({ isAuthenticated: true, user: userData });
-        } catch (err) {
-            throw new Error("Signup failed: " + err);
+        } catch (err: any) {
+            const error = err as ApiError;
+            throw new Error(error.message);
         }
     };
 
-    const logout = () => {
+    const logout = async () => {
+        console.log('logout:')
         try {
-            services.auth.logout();
+            await services.auth.logout();
+
             setAuthState({ isAuthenticated: false, user: null });
         } catch (err) {
+            console.log('err:', err)
             throw new Error("Logout failed: " + err);
         }
     };

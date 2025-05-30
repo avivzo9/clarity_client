@@ -3,14 +3,14 @@ import { Button } from "react-native-paper";
 import { theme } from "../../theme";
 
 interface RoundButtonProps {
-    children: React.ReactNode;
+    text: string;
     onClick: () => void;
 }
 
-export default function RoundButton({ children, onClick }: RoundButtonProps) {
+export default function RoundButton({ text, onClick }: RoundButtonProps) {
     return (
         <Button onPress={onClick} style={styles.button} mode="contained" >
-            <Text>{children}</Text>
+            <Text>{text}</Text>
         </Button>
     );
 }

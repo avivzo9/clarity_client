@@ -1,26 +1,9 @@
-import { KeyboardTypeOptions, StyleSheet } from "react-native";
-import { TextInput } from "react-native-paper";
+import { StyleSheet } from "react-native";
+import { TextInput, TextInputProps } from "react-native-paper";
 
-interface TextFieldProps {
-    label: string;
-    value: string;
-    onChange: (text: string) => void;
-    secureTextEntry?: boolean;
-    keyboardType?: KeyboardTypeOptions;
-}
+export default function TextField(props: TextInputProps) {
 
-export default function TextField({ label, value, onChange, secureTextEntry, keyboardType }: TextFieldProps) {
-
-    return (
-        <TextInput
-            label={label}
-            value={value}
-            onChangeText={onChange}
-            style={styles.inputField}
-            keyboardType={keyboardType}
-            secureTextEntry={secureTextEntry}
-        />
-    )
+    return <TextInput {...props} style={styles.inputField} />
 }
 
 const styles = StyleSheet.create({
