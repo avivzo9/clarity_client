@@ -13,6 +13,7 @@ export default function AuthLayout() {
 
     const onSubmit = async (user: UserLogin | UserSignup) => {
         try {
+            console.log('login user:', user)
             if (AuthType === 'login') login(user as UserLogin);
             else await signup(user as UserSignup);
         } catch (err: any) {

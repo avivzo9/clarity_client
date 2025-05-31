@@ -5,13 +5,12 @@ export class AuthService {
 
     async login(userToLogin: UserLogin): Promise<any> {
         try {
-            const res = await api.post<User>('/auth/login', userToLogin);
+            const res = await api.post<User>('/auth/signin', userToLogin);
 
             if (res.status !== 200) throw new Error('Failed to login');
 
             return Promise.resolve(res.data);
         } catch (err: any) {
-            // axios error, unwrap the server JSON if present
             if (err.response && err.response.data) {
                 return Promise.reject(err.response.data);
             }
@@ -23,13 +22,11 @@ export class AuthService {
     async signup(userToSignup: UserSignup): Promise<any> {
         try {
             const res = await api.post<User>('/auth/signup', userToSignup);
-            console.log('signup res:', res)
 
             if (res.status !== 201) throw new Error('Failed to signup');
 
             return Promise.resolve(res.data);
         } catch (err: any) {
-            // axios error, unwrap the server JSON if present
             if (err.response && err.response.data) {
                 return Promise.reject(err.response.data);
             }
@@ -46,7 +43,6 @@ export class AuthService {
 
             return Promise.resolve(res.data);
         } catch (err: any) {
-            // axios error, unwrap the server JSON if present
             if (err.response && err.response.data) {
                 return Promise.reject(err.response.data);
             }
@@ -63,7 +59,6 @@ export class AuthService {
 
             return Promise.resolve();
         } catch (err: any) {
-            // axios error, unwrap the server JSON if present
             if (err.response && err.response.data) {
                 return Promise.reject(err.response.data);
             }

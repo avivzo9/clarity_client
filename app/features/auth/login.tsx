@@ -25,7 +25,7 @@ export default function Login({ toggleAuth, onSubmit }: SignupProps) {
                         <TextField
                             label="Email"
                             onBlur={onBlur}
-                            onChange={onChange}
+                            onChangeText={onChange}
                             value={value}
                             keyboardType="email-address"
                         />
@@ -40,7 +40,7 @@ export default function Login({ toggleAuth, onSubmit }: SignupProps) {
                         <TextField
                             label="Password"
                             onBlur={onBlur}
-                            onChange={onChange}
+                            onChangeText={onChange}
                             value={value}
                             secureTextEntry
                         />

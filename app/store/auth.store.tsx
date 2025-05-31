@@ -39,9 +39,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const login = async (user: UserLogin) => {
         try {
             const userData = await services.auth.login(user);
+            console.log('userData:', userData)
 
             setAuthState({ isAuthenticated: true, user: userData });
         } catch (err) {
+            console.log('err:', err)
             throw new Error("Login failed: " + err);
         }
     };
@@ -58,7 +60,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     const logout = async () => {
-        console.log('logout:')
         try {
             await services.auth.logout();
 

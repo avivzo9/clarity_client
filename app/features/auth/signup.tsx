@@ -27,8 +27,7 @@ export default function Signup({ toggleAuth, onSubmit }: SignupProps) {
                             label="Username"
                             onBlur={onBlur}
                             onChangeText={onChange}
-                            value={"avivzo9"}
-                        // value={value}
+                            value={value}
                         />
                     )}
                 />
@@ -49,8 +48,7 @@ export default function Signup({ toggleAuth, onSubmit }: SignupProps) {
                             label="Email"
                             onBlur={onBlur}
                             onChangeText={onChange}
-                            value={'avivzo9@gmail.com'}
-                            // value={value}
+                            value={value}
                             keyboardType="email-address"
                         />
                     )}
@@ -73,8 +71,7 @@ export default function Signup({ toggleAuth, onSubmit }: SignupProps) {
                             label="Password"
                             onBlur={onBlur}
                             onChangeText={onChange}
-                            value={"asdf5621561"}
-                            // value={value}
+                            value={value}
                             secureTextEntry
                         />
                     )}
