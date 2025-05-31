@@ -43,9 +43,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             console.log('userData:', userData)
 
             setAuthState({ isAuthenticated: true, user: userData });
-        } catch (err) {
-            console.log('err:', err)
-            throw new Error("Login failed: " + err);
+        } catch (err: any) {
+            const error = err as ApiError;
+            throw new Error(error.message);
         }
     };
 
@@ -65,9 +65,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             await services.auth.logout();
 
             setAuthState({ isAuthenticated: false, user: null });
-        } catch (err) {
-            console.log('err:', err)
-            throw new Error("Logout failed: " + err);
+        } catch (err: any) {
+            const error = err as ApiError;
+            throw new Error(error.message);
         }
     };
 

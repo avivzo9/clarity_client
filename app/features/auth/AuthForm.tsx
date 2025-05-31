@@ -17,7 +17,7 @@ interface AuthFormProps {
 
 export default function AuthForm({ isLogin, toggleAuth, onSubmit, error }: AuthFormProps) {
     const { control, formState: { errors }, handleSubmit } = useForm<UserLogin | UserSignup>();
-    // Animated value for the username field
+
     const usernameOpacity = useRef(new Animated.Value(0)).current;
     const inputAnimation = Animated.timing(usernameOpacity, {
         toValue: isLogin ? 0 : 1,
