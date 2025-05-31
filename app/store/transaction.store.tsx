@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import services from '../clients/client';
 import { Transaction } from '../models/Transaction.mdl';
+import { useAuth } from './auth.store';
 
 // Context value type
 type TransactionContextType = {
@@ -13,11 +14,12 @@ type TransactionContextType = {
 const TransactionContext = createContext<TransactionContextType | undefined>(undefined);
 
 export const TransactionProvider = ({ children }: { children: ReactNode }) => {
+    const { isAuthenticated } = useAuth();
     const [transactions, setTransactions] = useState<Transaction[]>([]);
 
     useEffect(() => {
-        queryTransactions()
-    }, [])
+        if (isAuthenticated) queryTransactions()
+    }, [isAuthenticated]);
 
     const queryTransactions = async () => {
         try {
@@ -47,7 +49,7 @@ export const TransactionProvider = ({ children }: { children: ReactNode }) => {
     );
 };
 
-export const useTransactions = () => {
+export const useTransaction = () => {
     const context = useContext(TransactionContext);
 
     if (!context) {

@@ -37,10 +37,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     const login = async (user: UserLogin) => {
-        console.log('user:', user)
         try {
             const userData = await services.auth.login(user);
-            console.log('userData:', userData)
 
             setAuthState({ isAuthenticated: true, user: userData });
         } catch (err: any) {
