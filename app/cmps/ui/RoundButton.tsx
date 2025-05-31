@@ -1,17 +1,10 @@
-import { StyleSheet, Text } from "react-native";
-import { Button } from "react-native-paper";
+import { StyleSheet } from "react-native";
+import { Button, ButtonProps } from "react-native-paper";
 import { theme } from "../../theme";
 
-interface RoundButtonProps {
-    text: string;
-    onClick: () => void;
-}
-
-export default function RoundButton({ text, onClick }: RoundButtonProps) {
+export default function RoundButton(props: ButtonProps) {
     return (
-        <Button onPress={onClick} style={styles.button} mode="contained" >
-            <Text>{text}</Text>
-        </Button>
+        <Button {...props} style={[styles.button, props.style]} mode="contained" />
     );
 }
 

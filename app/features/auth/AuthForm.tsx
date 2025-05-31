@@ -1,37 +1,53 @@
 import RoundButton from "@/app/cmps/ui/RoundButton";
 import TextField from "@/app/cmps/ui/TextField";
-import { UserSignup } from "@/app/models/User.mdl";
+import { UserLogin, UserSignup } from "@/app/models/User.mdl";
 import { theme } from "@/app/theme";
 import { LinearGradient } from 'expo-linear-gradient';
-import { Controller, useForm } from 'react-hook-form';
-import { StyleSheet, View } from "react-native";
+import { useEffect, useRef } from "react";
+import { Controller, FieldErrors, useForm } from 'react-hook-form';
+import { Animated, StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 
-interface SignupProps {
-    onSubmit: (user: UserSignup) => void;
+interface AuthFormProps {
+    isLogin: boolean;
+    onSubmit: (user: UserLogin | UserSignup) => void;
     toggleAuth: () => void;
+    error?: string | null;
 }
 
-export default function Signup({ toggleAuth, onSubmit }: SignupProps) {
-    const { control, formState: { errors }, handleSubmit } = useForm<UserSignup>();
+export default function AuthForm({ isLogin, toggleAuth, onSubmit, error }: AuthFormProps) {
+    const { control, formState: { errors }, handleSubmit } = useForm<UserLogin | UserSignup>();
+    // Animated value for the username field
+    const usernameOpacity = useRef(new Animated.Value(0)).current;
+    const inputAnimation = Animated.timing(usernameOpacity, {
+        toValue: isLogin ? 0 : 1,
+        duration: 300,
+        useNativeDriver: true
+    })
+
+    useEffect(() => {
+        inputAnimation.start();
+    }, [isLogin]);
 
     return (
         <LinearGradient colors={[theme.colors.primary, '#003B73']} style={styles.container}>
             <View>
-                <Controller
-                    name="username"
-                    control={control}
-                    rules={{ required: 'Username is required' }}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <TextField
-                            label="Username"
-                            onBlur={onBlur}
-                            onChangeText={onChange}
-                            value={value}
-                        />
-                    )}
-                />
-                {errors.username && <Text style={styles.error}>{errors.username.message}</Text>}
+                <Animated.View style={{ opacity: usernameOpacity }}>
+                    <Controller
+                        name="username"
+                        control={control}
+                        rules={!isLogin ? { required: 'Username is required' } : undefined} // Only require username if not in login mode
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextField
+                                label="Username"
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                            />
+                        )}
+                    />
+                    {(errors as FieldErrors<UserSignup>)?.username && <Text style={styles.error}>{(errors as FieldErrors<UserSignup>)?.username?.message}</Text>}
+                </Animated.View>
 
                 <Controller
                     name="email"
@@ -79,15 +95,16 @@ export default function Signup({ toggleAuth, onSubmit }: SignupProps) {
                 {errors.password && <Text style={styles.error}>{errors.password.message}</Text>}
             </View>
 
-            <RoundButton text="Sign Up" onClick={handleSubmit(onSubmit)} />
+            {error && <Text style={styles.error}>{error}</Text>}
 
+            <RoundButton onPress={handleSubmit(onSubmit)}>{isLogin ? "Login" : "Sign Up"}</RoundButton>
 
             <View style={styles.signupSwitch}>
-                <Text style={{ fontWeight: 'bold' }}>Have an account?</Text>
-                <Text style={styles.signupText} onPress={toggleAuth}>Log In</Text>
+                <Text style={{ fontWeight: 'bold' }}>{isLogin ? "Don't have an account?" : "Have an account?"}</Text>
+                <Text style={styles.signupText} onPress={toggleAuth}>{isLogin ? "Sign Up" : "Log In"}</Text>
             </View>
         </LinearGradient>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
