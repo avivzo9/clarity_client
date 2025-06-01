@@ -35,6 +35,6 @@ const styles = StyleSheet.create({
     },
     headerTxt: {
         fontSize: 25,
-        height: 22,
+        height: 22
     }
 });

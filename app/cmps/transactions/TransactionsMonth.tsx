@@ -7,6 +7,7 @@ import moment from "moment";
 import { useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { IconButton } from "react-native-paper";
+import PieChart from "../charts/Pie";
 
 interface TransactionsMonthProps {
     transactions: Transaction[];
@@ -20,20 +21,46 @@ export default function TransactionsMonth({ transactions }: TransactionsMonthPro
         return d;
     });
 
-    const totalSpending = useMemo(() => {
+    const filteredTransactions = useMemo(() => {
         const endDate = new Date(startDate);
         endDate.setMonth(endDate.getMonth() + 1);
 
         // Filter transactions that fall within the date range
-        const filteredTransactions = transactions.filter(tx => {
+        return transactions.filter(tx => {
             const date = moment(tx.transactionDate);
             return date.isBetween(moment(startDate), moment(endDate), 'day', '[]');
         });
+    }, [startDate, transactions]);
 
-        if (filteredTransactions.length === 0) return 0;
+    const totalSpending = useMemo(() => {
+        if (!filteredTransactions?.length) return 0;
 
         return filteredTransactions.reduce((acc, tx) => acc + (tx.billingAmount || 0), 0);
-    }, [startDate, transactions]);
+    }, [filteredTransactions]);
+
+    const pieValues = useMemo(() => {
+        const map = new Map<string, Transaction>();
+
+        filteredTransactions.forEach(tx => {
+            if (!tx.category) return;
+
+            const existing = map.get(tx.category);
+            if (existing) {
+                existing.billingAmount += tx.billingAmount || 0;
+            } else {
+                map.set(tx.category, { ...tx });
+            }
+        });
+
+        if (!map.size) return [];
+
+        const values: number[] = [];
+        map.forEach(tx => {
+            values.push(tx.billingAmount || 0);
+        });
+
+        return values;
+    }, [filteredTransactions])
 
     const prevRange = () => {
         setStartDate(prev => {
@@ -79,6 +106,8 @@ export default function TransactionsMonth({ transactions }: TransactionsMonthPro
                     <IconButton icon={"calendar-today"} onPress={goToToday} />
                 </View>
             </View>
+
+            <PieChart values={pieValues} />
 
             <View style={styles.actions}>
                 <IconButton icon="chevron-left" onPress={prevRange} />

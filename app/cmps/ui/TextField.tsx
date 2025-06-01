@@ -3,7 +3,7 @@ import { TextInput, TextInputProps } from "react-native-paper";
 
 export default function TextField(props: TextInputProps) {
 
-    return <TextInput {...props} style={styles.inputField} />
+    return <TextInput {...props} underlineColorAndroid="transparent" style={styles.inputField} />
 }
 
 const styles = StyleSheet.create({
