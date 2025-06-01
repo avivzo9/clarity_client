@@ -1,4 +1,4 @@
-import { Text } from "@/app/cmps/ui/CustomText";
+// import { Text } from "@/app/cmps/ui/CustomText";
 import TransactionCard from "@/app/cmps/ui/transactions/TransactionCard";
 import { Constansts } from "@/app/Constants";
 import { Transaction } from "@/app/models/Transaction.mdl";
@@ -6,7 +6,7 @@ import { theme } from "@/app/theme";
 import moment from "moment";
 import { useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { IconButton } from "react-native-paper";
+import { IconButton, Text } from "react-native-paper";
 import PieChart from "../charts/Pie";
 
 interface TransactionsMonthProps {

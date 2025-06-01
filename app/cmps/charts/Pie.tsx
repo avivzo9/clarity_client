@@ -26,7 +26,6 @@ const colors = ['#ff6667', '#42d7b5', '#f8b501', '#1869ff', '#ff8c42', '#42a5f5'
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 export default function PieChart({ values, relativeSize, strokeWidth = 18 }: PieChartProps) {
-    console.log('values:', values)
     const screenWidth = Dimensions.get('screen').width;
     const size = screenWidth / (relativeSize || 4);
     const center = size / 2;
