@@ -1,3 +1,4 @@
+import { theme } from "@/app/theme";
 import { StyleSheet, View } from "react-native";
 
 interface TransactionCardProps {
@@ -21,6 +22,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderWidth: 1,
         borderColor: '#ccc',
-        borderRadius: 8,
+        borderRadius: theme.border.radius,
+        backgroundColor: theme.colors.white,
+        boxShadow: '0 8px 8px rgba(0, 0, 0, 0.1)',
+        padding: theme.padding.s,
     }
 });
