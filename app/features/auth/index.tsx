@@ -3,6 +3,7 @@ import { useAuth } from "@/app/store/auth.store";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import AuthForm from "./AuthForm";
+// import { GoogleSignin, isSuccessResponse, isErrorWithCode, statusCodes } from '@react-native-google-signin/google-signin';
 
 export default function AuthLayout() {
     const { isAuthenticated, login, signup } = useAuth();

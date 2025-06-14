@@ -1,7 +1,7 @@
 import TransactionsMonth from "@/app/cmps/transactions/TransactionsMonth";
 import { useAuth } from "@/app/store/auth.store";
 import { useTransaction } from "@/app/store/transaction.store";
-import { theme } from "@/app/theme";
+import theme from "@/app/theme";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 

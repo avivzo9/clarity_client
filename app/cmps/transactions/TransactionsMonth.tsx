@@ -2,7 +2,7 @@
 import TransactionCard from "@/app/cmps/ui/transactions/TransactionCard";
 import { Constansts } from "@/app/Constants";
 import { Transaction } from "@/app/models/Transaction.mdl";
-import { theme } from "@/app/theme";
+import theme from "@/app/theme";
 import moment from "moment";
 import { useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";

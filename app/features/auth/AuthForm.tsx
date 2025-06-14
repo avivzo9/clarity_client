@@ -1,11 +1,11 @@
 import RoundButton from "@/app/cmps/ui/RoundButton";
 import TextField from "@/app/cmps/ui/TextField";
 import { UserLogin, UserSignup } from "@/app/models/User.mdl";
-import { theme } from "@/app/theme";
+import theme from "@/app/theme";
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useRef } from "react";
 import { Controller, FieldErrors, useForm } from 'react-hook-form';
-import { Animated, StyleSheet, View } from "react-native";
+import { Animated, Platform, StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 
 interface AuthFormProps {
@@ -99,6 +99,11 @@ export default function AuthForm({ isLogin, toggleAuth, onSubmit, error }: AuthF
 
             <RoundButton onPress={handleSubmit(onSubmit)}>{isLogin ? "Login" : "Sign Up"}</RoundButton>
 
+            <View>
+                <Text>Hi</Text>
+                <RoundButton icon={'google'} mode="contained" onPress={() => { }}>Sign In with Google</RoundButton>
+            </View>
+
             <View style={styles.signupSwitch}>
                 <Text style={{ fontWeight: 'bold' }}>{isLogin ? "Don't have an account?" : "Have an account?"}</Text>
                 <Text style={styles.signupText} onPress={toggleAuth}>{isLogin ? "Sign Up" : "Log In"}</Text>
@@ -109,9 +114,11 @@ export default function AuthForm({ isLogin, toggleAuth, onSubmit, error }: AuthF
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
-        height: '100%',
+        width: Platform.OS === 'web' ? '50%' : '100%',
+        height: '60%',
+        alignSelf: 'center',
         backgroundColor: theme.colors.white,
+        borderRadius: theme.border.radius,
         padding: theme.padding.s,
         justifyContent: 'center'
     },

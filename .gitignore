@@ -37,3 +37,4 @@ yarn-error.*
 *.tsbuildinfo
 
 spec.md
+.env

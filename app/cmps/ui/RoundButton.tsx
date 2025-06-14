@@ -1,6 +1,6 @@
+import theme from "@/app/theme";
 import { StyleSheet, View } from "react-native";
 import { Button, ButtonProps, Text } from "react-native-paper";
-import { theme } from "../../theme";
 
 export default function RoundButton(props: ButtonProps) {
     return (
