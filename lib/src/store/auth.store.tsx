@@ -23,18 +23,30 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
 
     useEffect(() => {
-        getCurrentUser();
+        testSignup();
+        // getCurrentUser();
     }, []);
 
-    const getCurrentUser = async () => {
+    const testSignup = async () => {
         try {
-            const user = await services.auth.currentUser();
-
-            if (user) setAuthState({ isAuthenticated: true, user });
-        } catch (err) {
-            setAuthState({ isAuthenticated: false, user: null });
+            const user = await services.auth.signInWithGoogle();
+            console.log('user:', user)
+        } catch (err: any) {
+            const error = err as ApiError;
+            console.error('Error during Google login:', error.message);
+            throw new Error(error.message);
         }
-    };
+    }
+
+    // const getCurrentUser = async () => {
+    //     try {
+    //         const user = await services.auth.currentUser();
+
+    //         if (user) setAuthState({ isAuthenticated: true, user });
+    //     } catch (err) {
+    //         setAuthState({ isAuthenticated: false, user: null });
+    //     }
+    // };
 
     const login = async (user: UserLogin) => {
         try {
@@ -85,3 +97,5 @@ export const useAuth = () => {
 
     return context;
 };
+
+export default {};

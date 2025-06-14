@@ -1,4 +1,4 @@
-import theme from "@/app/theme";
+import theme from "@/lib/src/theme";
 import { StyleSheet, View } from "react-native";
 import { Button, ButtonProps, Text } from "react-native-paper";
 

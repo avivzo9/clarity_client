@@ -1,5 +1,5 @@
+import { Transaction } from "../../lib/src/models/Transaction.mdl";
 import api from "../clients/api";
-import { Transaction } from "../models/Transaction.mdl";
 
 export class TransactionsService {
 
@@ -19,3 +19,5 @@ export class TransactionsService {
         }
     }
 }
+
+export default {};
