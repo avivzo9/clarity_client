@@ -4,7 +4,7 @@ import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import AuthForm from "../../cmps/auth/AuthForm";
 
-export default function AuthLayout() {
+const AuthLayout = () => {
     const { isAuthenticated, login, signup } = useAuth();
 
     const [error, setError] = useState<string | null>(null);
@@ -32,3 +32,5 @@ export default function AuthLayout() {
         />
     );
 }
+
+export default AuthLayout;

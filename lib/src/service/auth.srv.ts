@@ -2,7 +2,7 @@ import * as Google from 'expo-auth-session/providers/google';
 import { GoogleAuthProvider, signInWithCredential, signInWithPopup, User } from 'firebase/auth';
 import { Platform } from "react-native";
 import api from "../clients/api";
-import { firebaseConfig } from '../config/Firebase';
+import { firebaseConfig } from '../config/firebase';
 import { UserLogin, UserSignup } from '../models/User.mdl';
 
 export class AuthService {
@@ -10,7 +10,6 @@ export class AuthService {
 
     constructor() {
         // Initialize Firebase Auth if needed
-        console.log('this.firebaseAuth:', this.firebaseAuth)
         if (!this.firebaseAuth) {
             throw new Error('Firebase Auth is not initialized');
         }

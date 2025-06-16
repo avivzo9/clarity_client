@@ -5,7 +5,7 @@ import theme from "@/lib/src/theme";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 
-export default function TransactionsLayout() {
+const TransactionsLayout = () => {
     const { user } = useAuth();
     const { transactions } = useTransaction();
 
@@ -38,3 +38,5 @@ const styles = StyleSheet.create({
         height: 22
     }
 });
+
+export default TransactionsLayout;
