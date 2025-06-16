@@ -2,6 +2,14 @@ import api from "../clients/api";
 import { Transaction } from "../models/Transaction.mdl";
 
 export class TransactionsService {
+    private static instance: TransactionsService;
+
+    public static getInstance(): TransactionsService {
+        if (!TransactionsService.instance) {
+            TransactionsService.instance = new TransactionsService();
+        }
+        return TransactionsService.instance;
+    }
 
     async getAll(): Promise<Transaction[]> {
         try {
@@ -20,4 +28,4 @@ export class TransactionsService {
     }
 }
 
-export default {};
+export const transactionsService = TransactionsService.getInstance();

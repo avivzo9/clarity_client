@@ -23,20 +23,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
 
     useEffect(() => {
-        testSignup();
+        // testSignup();
         // getCurrentUser();
     }, []);
 
-    const testSignup = async () => {
-        try {
-            const user = await services.auth.signInWithGoogle();
-            console.log('user:', user)
-        } catch (err: any) {
-            const error = err as ApiError;
-            console.error('Error during Google login:', error.message);
-            throw new Error(error.message);
-        }
-    }
+    // const testSignup = async () => {
+    //     try {
+    //         const user = await services.auth.signInWithGoogle();
+    //         console.log('user:', user)
+    //     } catch (err: any) {
+    //         const error = err as ApiError;
+    //         console.error('Error during Google login:', error.message);
+    //         throw new Error(error.message);
+    //     }
+    // }
 
     // const getCurrentUser = async () => {
     //     try {

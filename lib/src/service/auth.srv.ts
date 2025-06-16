@@ -1,18 +1,25 @@
-// import * as Google from 'expo-auth-session/providers/google';
-import { GoogleAuthProvider, User } from 'firebase/auth';
+import * as Google from 'expo-auth-session/providers/google';
+import { GoogleAuthProvider, signInWithCredential, signInWithPopup, User } from 'firebase/auth';
 import { Platform } from "react-native";
 import api from "../clients/api";
+// import FirebaseConfig from '../config/firebase';
+import { firebaseConfig } from '../config/firebase';
 import { UserLogin, UserSignup } from '../models/User.mdl';
 
-export class AuthService {
-    // private firebaseAuth = firebaseConfig.auth;
+class AuthService {
+    private static instance: AuthService;
 
-    constructor() {
-        // Initialize Firebase Auth if needed
-        // console.log('this.firebaseAuth:', this.firebaseAuth)
-        // if (!this.firebaseAuth) {
-        //     throw new Error('Firebase Auth is not initialized');
-        // }
+    private get firebaseAuth() {
+        return firebaseConfig.auth;
+    }
+
+    constructor() { }
+
+    public static getInstance(): AuthService {
+        if (!AuthService.instance) {
+            AuthService.instance = new AuthService();
+        }
+        return AuthService.instance;
     }
 
     async login(userToLogin: UserLogin): Promise<any> {
@@ -79,27 +86,43 @@ export class AuthService {
         }
     }
 
+    async signInWithGoogleForWeb(provider: GoogleAuthProvider) {
+        try {
+            return await signInWithPopup(this.firebaseAuth, provider);
+        } catch (err: any) {
+            if (err.response && err.response.data) {
+                return Promise.reject(err.response.data);
+            }
+
+            return Promise.reject(err);
+        }
+    }
+
+    async signInWithGoogleForMobile() {
+
+    }
+
     async signInWithGoogle() {
         if (Platform.OS === 'web') {
             const provider = new GoogleAuthProvider();
             console.log('provider:', provider)
-            // return await signInWithPopup(this.firebaseAuth, provider);
+            return await signInWithPopup(this.firebaseAuth, provider);
         } else {
-            // const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
-            //     clientId: process.env.EXPO_PUBLIC_IOS_CLIENT_ID,      // iOS client ID
-            //     androidClientId: process.env.EXPO_PUBLIC_ANDROID_CLIENT_ID, // Android client ID
-            //     webClientId: process.env.EXPO_PUBLIC_WEB_CLIENT_ID,    // Web client ID
-            // });
+            const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
+                clientId: process.env.EXPO_PUBLIC_IOS_CLIENT_ID,      // iOS client ID
+                androidClientId: process.env.EXPO_PUBLIC_ANDROID_CLIENT_ID, // Android client ID
+                webClientId: process.env.EXPO_PUBLIC_WEB_CLIENT_ID,    // Web client ID
+            });
 
-            // const result = await promptAsync();
+            const result = await promptAsync();
 
-            // if (result?.type === 'success') {
-            //     const { id_token } = result.params;
-            //     const credential = GoogleAuthProvider.credential(id_token);
-            //     await signInWithCredential(this.firebaseAuth, credential);
-            // }
+            if (result?.type === 'success') {
+                const { id_token } = result.params;
+                const credential = GoogleAuthProvider.credential(id_token);
+                await signInWithCredential(this.firebaseAuth, credential);
+            }
         }
     }
 }
 
-export default {};
+export const authService = AuthService.getInstance();

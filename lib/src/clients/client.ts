@@ -1,9 +1,9 @@
-import { AuthService } from "../service/auth.srv";
-import { TransactionsService } from "../service/transactions.srv";
+import { authService } from "../service/auth.srv";
+import { transactionsService } from "../service/transactions.srv";
 
 export const services = {
-    auth: new AuthService(),
-    transactions: new TransactionsService()
+    auth: authService,
+    transactions: transactionsService
 }
 
 export default services;
