@@ -1,4 +1,4 @@
-import { theme } from "@/app/theme";
+import theme from "@/lib/src/theme";
 import { useEffect, useMemo, useRef } from "react";
 import { Animated, Dimensions, Easing, View } from "react-native";
 import Svg, { Circle } from 'react-native-svg';

@@ -4,7 +4,7 @@ import AuthLayout from "./features/auth";
 
 export default function Index() {
   const [loaded] = useFonts({
-    'Zain-Regular': require('./assets/fonts/Zain-Regular.ttf'),
+    'Zain-Regular': require('../lib/assets/fonts/Zain-Regular.ttf'),
     // add other weights if you have them…
   });
 

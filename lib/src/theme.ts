@@ -39,7 +39,7 @@ const fontConfig: Record<string, MD3Type> = {
     },
 };
 
-export const theme = {
+const theme = {
     ...DefaultTheme,
     fonts: configureFonts({ config: fontConfig, isV3: true }),
     colors: {
@@ -68,3 +68,5 @@ export const theme = {
         l: 30,
     },
 };
+
+export default theme;

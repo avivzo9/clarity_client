@@ -1,8 +1,8 @@
 import TransactionsMonth from "@/app/cmps/transactions/TransactionsMonth";
-import { Text } from "@/app/cmps/ui/CustomText";
-import { useAuth } from "@/app/store/auth.store";
-import { useTransaction } from "@/app/store/transaction.store";
-import { theme } from "@/app/theme";
+import Text from "@/app/cmps/ui/CustomText";
+import { useAuth } from "@/lib/src/store/auth.store";
+import { useTransaction } from "@/lib/src/store/transaction.store";
+import theme from "@/lib/src/theme";
 import { StyleSheet, View } from "react-native";
 
 export default function TransactionsLayout() {

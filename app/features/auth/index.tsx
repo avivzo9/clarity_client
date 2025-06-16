@@ -1,5 +1,5 @@
-import { UserLogin, UserSignup } from "@/app/models/User.mdl";
-import { useAuth } from "@/app/store/auth.store";
+import { UserLogin, UserSignup } from "@/lib/src/models/User.mdl";
+import { useAuth } from "@/lib/src/store/auth.store";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import AuthForm from "./AuthForm";

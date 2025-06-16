@@ -1,8 +1,8 @@
+import { AuthProvider } from "@/lib/src/store/auth.store";
+import { TransactionProvider } from "@/lib/src/store/transaction.store";
+import theme from "@/lib/src/theme";
 import { Stack } from "expo-router";
 import { PaperProvider } from "react-native-paper";
-import { AuthProvider } from "./store/auth.store";
-import { TransactionProvider } from "./store/transaction.store";
-import { theme } from "./theme";
 
 export default function RootLayout() {
   return (

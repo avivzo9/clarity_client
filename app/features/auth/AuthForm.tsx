@@ -1,7 +1,7 @@
 import RoundButton from "@/app/cmps/ui/RoundButton";
 import TextField from "@/app/cmps/ui/TextField";
-import { UserLogin, UserSignup } from "@/app/models/User.mdl";
-import { theme } from "@/app/theme";
+import { UserLogin, UserSignup } from "@/lib/src/models/User.mdl";
+import theme from "@/lib/src/theme";
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useRef } from "react";
 import { Controller, FieldErrors, useForm } from 'react-hook-form';
